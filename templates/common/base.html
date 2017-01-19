@@ -1,0 +1,70 @@
+{% load staticfiles %}<!doctype html>
+
+<html>
+  <head>
+    <!-- Page meta tags -->
+    {% block html_head_meta %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="{{ page.description }}" />
+    <title>{{ page.title }}</title>
+    {% endblock %}
+
+    <!-- Page js -->
+    {% block html_head_js %}
+    <script src="{{ page.js.jquery }}"></script>
+    <script src="{{ page.js.bootstrap }}"></script>
+    {% endblock %}
+
+    <!-- Page css -->
+    {% block html_head_css %}
+    <link rel="stylesheet" href="{{ page.css.bootstrap }}" />
+    <link rel="stylesheet" href="{% static 'common/core.css' %}" />
+    {% endblock %}
+
+    <!-- App-specific head stuff -->
+    {% block html_head %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <!-- Page Top Nav -->
+    {% block html_body_header %}
+    <nav class="navbar navbar-default"><div class="container-fluid">
+      <div class="navbar-header" id="page-title">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          {{ page.site }}{% if page.title %}: {{ page.title }}{% endif %}
+        </a>
+      </div>
+      <div id="page-nav"><ul class="nav navbar-nav navbar-right">
+        <!-- Account dropdown menu -->
+        <li class="dropdown">
+        {% if user %}
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Hello <b>{{ user.username }}</b><span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+          {% for iurl, iname in page.user_menu %}
+            <li><a href="{{ iurl }}">{{ iname }}</a></li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Welcome Visitor<span class="caret" />
+          </a>
+          <ul class="dropdown-menu">
+          {% for iurl, iname in page.anon_menu %}
+            <li><a href="{{ iurl }}">{{ iname }}</a></li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+        </li>
+      </ul></div>
+    </div></nav>
+    {% endblock %}
+    
+    <!-- App-specific Page Body -->
+    {% block html_body %}
+    {% endblock %}
+  </body>
+</html>
